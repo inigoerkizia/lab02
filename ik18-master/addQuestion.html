@@ -26,7 +26,7 @@
 	</head>
 	
 	<body background ="images\letras-de-modelo-37111940.jpg">
-<form id="galderenF" name="galderenF" action = "php\proba.php" method="post">
+<form id="galderenF" name="galderenF" action = "php\addQuestion.php" method="post">
 			<div>
         		Email-a(*):<input type="email" id="email" name="email">
     		</div>
@@ -67,19 +67,28 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			$("#bidali").click(function(){
+			$("#galderenF").submit(function(){
+			
 				if($("#email").val() == "" || $("#galdera").val() == "" || $("#erzu").val() == "" || $("#erok1").val() == "" || $("#erok2").val() == "" || $("#erok3").val() == "" || $("#arloa").val() == "" || $('input:radio[name=gz1]:checked').val() == null ){
 					alert("Derrigorrezko eremuak bete");
-				}
-				var regg = /[a-zA-Z]{9,}/;
-				if(!regg.test($("#galdera").val())){
-					alert("Galderak 10 karaktere minimo eduki behar ditu");
-				}
-				var rege = /[a-zA-Z]+[0-9]{3}@ikasle.ehu.es/ ;
-				if(!rege.test($("#email").val())){
-					alert("Hizkiak + 3 digitu + “@ikasle.ehu.es” ");
+					return false;
 				}
 				
+				
+				galdera = $("#galdera").val();
+				if(galdera.trim().length<10){
+					alert("Galderak 10 karaktere minimo eduki behar ditu");
+					return false;
+				}
+				
+				
+				var rege = /^[a-zA-Z]{3,}[0-9]{3}@ikasle\.ehu\.eus$/;
+				if(!rege.test($("#email").val())){
+					alert("Hizkiak + 3 digitu + “@ikasle.ehu.eus” (EHU ikasleen eposta)");
+					return false;
+				}
+				
+				return true;
 			});
 		});
 	</script>
