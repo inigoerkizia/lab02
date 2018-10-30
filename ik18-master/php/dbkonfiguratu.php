@@ -3,7 +3,7 @@
 	if ($lokal) {
 		$zerbitzaria = "localhost";
  		$erabiltzaile = "id7132149_ionetainigo";
-		$gakoa = "";
+		$gakoa = "teletovic";
 		$db = "id7132149_quiz";
 	}
 	else{

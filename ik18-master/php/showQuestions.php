@@ -23,7 +23,9 @@
 	echo '</table>';
 	mysqli_free_result($ema);
 		
-	echo "<p> <a href='../layout.html'> Menura itzuli</a>";
+	$erab = $_GET['erab'];
+	echo "<p> <a href='layoutErreg.php?erab=$erab'>Menura itzuli</a>";
+
 	// Konexioa itxi
 	mysqli_close($esteka);
 ?>

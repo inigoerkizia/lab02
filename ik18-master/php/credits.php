@@ -16,15 +16,24 @@
 		<span id = "e2">Konputagailuen Ingenieritza</span>
 		
 		<h1> Argazkiak: </h1>
-		<img src='images\sepia.jpg' width="100px"></a>
+		<img src='../images\sepia.jpg' width="100px"></a>
 		<br>
-		<img src='images\sepia.jpg' width="100px"></a>
+		<img src='../images\sepia.jpg' width="100px"></a>
 		
 		<h1> Bizilekua: </h1>
 		<span id = "b1">Orereta</span>
 		<br>
 		<span id = "b2">Oiartzun</span>
 		<br>
-		<a href='layout.html'>Hasierako menua</a>
 	</body>
 </html>
+
+<?php
+	$v1 = $_GET['var1'];
+	$erab = $_GET['erab'];
+	if($v1 == 1){
+		echo "<p> <a href='layoutErreg.php?erab=$erab'> Hasierako menua</a>";
+	}else{
+		echo "<p> <a href='../layout.html'> Hasierako menua</a>";
+	}
+?>

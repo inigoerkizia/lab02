@@ -3,36 +3,57 @@
   <head>
     <meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 	<title>Quizzes</title>
-    <link rel='stylesheet' type='text/css' href='styles/style.css' />
+    <link rel='stylesheet' type='text/css' href='../styles/style.css' />
 	<link rel='stylesheet' 
 		   type='text/css' 
 		   media='only screen and (min-width: 530px) and (min-device-width: 481px)'
-		   href='styles/wide.css' />
+		   href='../styles/wide.css' />
 	<link rel='stylesheet' 
 		   type='text/css' 
 		   media='only screen and (max-width: 480px)'
-		   href='styles/smartphone.css' />
+		   href='../styles/smartphone.css' />
   </head>
   <body>
   <div id='page-wrap'>
 	<header class='main' id='h1'>
-	  <span class="left" >Anonymous </span>
-	  <span class="right" ><a href="php/signUp.php">Erregistratu</a> </span>
-      <span class="right"><a href="php/logIn.php">LogIn</a> </span>
-      <span class="right" style="display:none;"><a href="/logout">LogOut</a> </span>
+	<?php
+		$erab = $_GET['erab'];
+		echo "<p><b>$erab</b></a>";
+	?>
+      <span class="right"><a href="../layout.html">LogOut</a> </span>
 	  
 	<h2>Quiz: crazy questions</h2>
     </header>
 	<nav class='main' id='n1' role='navigation'>
-		<span><a href='layout.html'>Home</a></span>
+		<span>
+		<?php
+		echo "<p> <a href='layoutErreg.php?erab=$erab'>Home</a>";
+		?>
+		</span><br>
 		<span><a href='/quizzes'>Quizzes</a></span>
-		<span><a href='php/credits.php?var1=0'>Credits</a></span>
+		<span>
+		<?php
+		echo "<p> <a href='addQuestion.php?erab=$erab'>Add Question</a>";
+		?>
+		
+		</span>
+		<span>
+		<?php
+		echo "<p> <a href='showQuestions.php?erab=$erab'>Show Questions</a>";
+		?>
+		</span>
+		<span>
+		<?php
+		echo "<p> <a href='credits.php?erab=$erab&&var1=1'>Credits</a>";
+		?>
+		</span>
 		
 	</nav>
     <section class="main" id="s1">
     
 	
 	<div>
+	
 	Quizzes and credits will be displayed in this spot in future laboratories ...
 	</div>
     </section>
@@ -42,3 +63,5 @@
 </div>
 </body>
 </html>
+
+
