@@ -27,24 +27,33 @@
 	<nav class='main' id='n1' role='navigation'>
 		<span>
 		<?php
-		echo "<p> <a href='layoutErreg.php?erab=$erab'>Home</a>";
+		echo " <a href='layoutErreg.php?erab=$erab'>Home</a>";
 		?>
-		</span><br>
+		</span>
 		<span><a href='/quizzes'>Quizzes</a></span>
 		<span>
 		<?php
-		echo "<p> <a href='addQuestion.php?erab=$erab'>Add Question</a>";
+		echo " <a href='addQuestion.php?erab=$erab'>Add Question</a>";
 		?>
 		
 		</span>
 		<span>
 		<?php
-		echo "<p> <a href='showQuestions.php?erab=$erab'>Show Questions</a>";
+		echo " <a href='showQuestions.php?erab=$erab'>Show Questions</a>";
 		?>
 		</span>
+		
+		<span><a href='../xml/questions.xml'>XML Questions</a></span>
+
 		<span>
 		<?php
-		echo "<p> <a href='credits.php?erab=$erab&&var1=1'>Credits</a>";
+		echo " <a href='showXMLQuestions.php?erab=$erab'>Show XML Questions</a>";
+		?>
+		</span>
+		
+		<span>
+		<?php
+		echo " <a href='credits.php?erab=$erab&&var1=1'>Credits</a>";
 		?>
 		</span>
 		

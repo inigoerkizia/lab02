@@ -56,8 +56,9 @@ if(isset($_POST['email'])){
 	
  	mysqli_query($esteka, "INSERT INTO users(email, deitura, pasahitza) VALUES ('$_POST[email]', '$_POST[deitura]', '$_POST[pasahitza]')");
 	
-	
-	echo 'Erregistroa gauzatu da!';
+	 
+
+	echo "<font color='green'><h1> Erregistroa gauzatu da!</h1></font>";
 	
 	mysqli_close($esteka);
 }

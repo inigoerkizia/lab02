@@ -51,9 +51,10 @@ if(isset($_POST['email'])){
 		echo "<p> <a href='../layout.html'> Menura itzuli</a>";
 		return false;
 	}
-
-	echo 'Saioa ireki duzu!';
-	echo "<p> <a href='layoutErreg.php?erab=$_POST[email]'> Menura itzuli</a>";
+	
+	echo "<font color='green'><h1> Saioa ireki duzu!</h1></font>";
+	echo "<p> <a href='layoutErreg.php?erab=$_POST[email]'> Menura joan</a>";
+	
 	return true;
 	mysqli_close($esteka);
 }
