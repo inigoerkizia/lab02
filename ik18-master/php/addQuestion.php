@@ -2,11 +2,7 @@
 <html>
 	<head>
 		<title></title>
-		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-
-
-
-		
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />	
 	<style>
 	form {
     
@@ -51,7 +47,7 @@
 				<input type="radio" id="gz1" name="gz1" value = "5">5
     		</div><br>
 				Galderaren gai arloa(*):<input type="text" id="arloa" name="arloa" >	
-		<div><br>
+			<div><br>
 			<input type="submit" id="bidali" value="Bidali"/>
 			<input type="reset" id="reset" value="Reset"/><br><br>
 			*Derrigorrezkoa da informazio hori ematea <br><br>

@@ -53,6 +53,12 @@
 		
 		<span>
 		<?php
+		echo " <a href='handlingQuizesAJAX.php?erab=$erab'>Quizes AJAX</a>";
+		?>
+		</span>
+		
+		<span>
+		<?php
 		echo " <a href='credits.php?erab=$erab&&var1=1'>Credits</a>";
 		?>
 		</span>
