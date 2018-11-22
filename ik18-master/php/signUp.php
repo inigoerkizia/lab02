@@ -25,21 +25,27 @@
 	<body background ="../images\letras-de-modelo-37111940.jpg">
 <form id="Erregistro" name="Erregistro" action = "signUp.php" method="post">
 			<div>
-        		Email-a(*):<input type="email" id="email" name="email">
+        		Email-a(*):<input type="email" id="email" name="email" onchange="egiaztatuMatrikula()">
     		</div>
     		<div>
         		Deitura(Izen eta abizenak)(*):<input type="text" id="deitura" name="deitura" >
     		</div>
 		<div>
-			Pasahitza(*):<input type="password" id="pasahitza" name="pasahitza"><br><br>
+			Pasahitza(*):<input type="password" id="pasahitza" name="pasahitza" onchange="egiaztatuPasahitza()"><br><br>
 			Pasahitza errepikatu(*):<input type="password" id="pasahitzaErr" name="pasahitzaErr"><br><br>
 			 
 		</div>
 			<input type="submit" id="Erregistratu" value="Erregistratu"/>
 			<input type="reset" id="reset" value="Reset"/><br><br>
 			*Derrigorrezkoa da informazio hori ematea <br><br>
+			<span id="matrikulatua"></span><br>
+			<span id="pasahitza2"></span>
 			
-			<?php
+
+			
+			
+			
+<?php
 if(isset($_POST['email'])){
 	include ("dbkonfiguratu.php");
 
@@ -74,13 +80,75 @@ if(isset($_POST['email'])){
 	</body>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
+	
+	var xhro = new XMLHttpRequest();
+
+	xhro.onreadystatechange = function(){ //Matrikula
+				if((xhro.readyState==4)&&(xhro.status==200)){
+					var result = xhro.responseText;
+					
+					if(result == "BAI"){
+						document.getElementById("matrikulatua").innerHTML = "Email hori WS irakasgaian matrikulatuta dago."
+						document.getElementById("matrikulatua").style.color = "green";
+					}else{
+						document.getElementById("matrikulatua").innerHTML = "Email hori ez dago WS irakasgaian matrikulatuta."
+						document.getElementById("matrikulatua").style.color = "red";
+					}
+				}
+				
+	}
+	var xhro2 = new XMLHttpRequest();
+	
+	xhro2.onreadystatechange = function(){ //Pasahitza
+				if((xhro2.readyState==4)&&(xhro.status==200)){
+					var result2 = xhro2.responseText;
+					
+					if(result2 == "BALIOZKOA"){
+						document.getElementById("pasahitza2").innerHTML = "Sartu duzun pasahitza egokia da."
+						document.getElementById("pasahitza2").style.color = "green";
+						document.getElementById("pasahitza").style.color = "green";
+					}else if (result2 =="BALIOGABEA"){
+						document.getElementById("pasahitza2").innerHTML = "Sartu duzun pasahitza ez da egokia."
+						document.getElementById("pasahitza2").style.color = "red";
+						document.getElementById("pasahitza").style.color = "red";
+					}else{
+						document.getElementById("pasahitza2").innerHTML = "Tiket okerra."
+						document.getElementById("pasahitza2").style.color = "red";
+					}
+				}
+	}
+	
+			function egiaztatuMatrikula(){
+				var email = $("#email").val();
+				console.log(email);
+				xhro.open("GET","egiaztaMatrikula.php?email="+ email, true);
+				xhro.send();
+			}
+	
+			function egiaztatuPasahitza(){
+				var pasahitza = $("#pasahitza").val();
+				xhro2.open("POST","egiaztatuPasahitzaBezero.php", true);
+				xhro2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xhro2.send("pasahitza="+pasahitza);
+			}
+	
 		$(document).ready(function() {
 			$("#Erregistro").submit(function(){
 			
+				var baldintza1 = xhro.responseText;
+				var baldintza2 = xhro2.responseText;
+
+				
 				if($("#email").val() == "" || $("#deitura").val() == "" || $("#pasahitza").val() == "" || $("#pasahitzaErr").val() == "" ){
 					alert("Derrigorrezko eremuak bete");
 					return false;
 				}
+				
+				if(baldintza1 != "BAI" || baldintza2 != "BALIOZKOA"){
+					alert("Ezin zara erregistratu!");
+					return false;
+				}
+				
 				var rege2 = /^[A-Z]([a-zA-Z]+) [A-Z]([a-zA-Z]+)( [a-zA-Z]*)*/;
 				if(!rege2.test($("#deitura").val())){
 					alert("Sartu izen eta abizen bat gutxienez letra larriz hasita");
