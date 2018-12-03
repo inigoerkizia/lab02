@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <body>
@@ -16,8 +17,7 @@
       </tr>\n";
 	}
 	echo '</table>';		
-	$erab = $_GET['erab'];
-	echo "<p> <a href='layoutErreg.php?erab=$erab'>Menura itzuli</a>";	
+	echo "<p> <a href='layoutErreg.php'>Menura itzuli</a>";	
 ?>
 
 </body>

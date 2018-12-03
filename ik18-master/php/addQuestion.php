@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -23,9 +24,7 @@
 	
 	<body background ="../images\letras-de-modelo-37111940.jpg">
 <form id="galderenF" name="galderenF" action = "addQuestion.php" method="post">
-			<div>
-        		Email-a(*):<input type="email" id="email" name="email">
-    		</div>
+
     		<div>
         		Galderaren testua(*):<input type="text" id="galdera" name="galdera" >
     		</div>
@@ -52,19 +51,18 @@
 			<input type="reset" id="reset" value="Reset"/><br><br>
 			*Derrigorrezkoa da informazio hori ematea <br><br>
 			<?php
-				if(isset($_GET['erab'])){
-					$erab = $_GET['erab'];
-					echo "<p> <a href='layoutErreg.php?erab=$erab'>Menura itzuli</a>";
+				if(isset($_SESSION['email'])){
+					echo "<p> <a href='layoutErreg.php'>Menura itzuli</a>";
 				}
-			?>
-			<?php
-				if(isset($_POST['email'])){
+			
+			
+				if(isset($_POST["galdera"])){
 
 					include ("dbkonfiguratu.php");
 
 					$esteka = mysqli_connect($zerbitzaria,$erabiltzaile,$gakoa,$db);
 
-					$email = $_POST["email"];
+					$email = $_SESSION['email'];
 					$galdera = $_POST["galdera"];
 					$erzu = $_POST["erzu"];
 					$erok1 = $_POST["erok1"];
@@ -82,21 +80,21 @@
 						echo "<br>";
 						return false;
 					}
-					if(!preg_match('/^[a-zA-Z]{3,}[0-9]{3}@ikasle\.ehu\.eus$/',$email)){
-						echo 'Hizkiak + 3 digitu + “@ikasle.ehu.eus” (EHU ikasleen eposta)';
-						return false;
-					}
+					//if(!preg_match('/^[a-zA-Z]{3,}[0-9]{3}@ikasle\.ehu\.eus$/',$email)){
+					//	echo 'Hizkiak + 3 digitu + “@ikasle.ehu.eus” (EHU ikasleen eposta)';
+					//	return false;
+					//}
 					
-					mysqli_query($esteka, "INSERT INTO quiz(email, galdera, erzu, erok1, erok2, erok3, gz1, arloa) VALUES ('$_POST[email]', '$_POST[galdera]', '$_POST[erzu]', '$_POST[erok1]', '$_POST[erok2]', '$_POST[erok3]', '$_POST[gz1]', '$_POST[arloa]')");
+					mysqli_query($esteka, "INSERT INTO quiz(email, galdera, erzu, erok1, erok2, erok3, gz1, arloa) VALUES ('$_SESSION[email]', '$_POST[galdera]', '$_POST[erzu]', '$_POST[erok1]', '$_POST[erok2]', '$_POST[erok3]', '$_POST[gz1]', '$_POST[arloa]')");
 					echo 'Galdera gehitu da!';
 					
 					mysqli_close($esteka);
 				}
-			?>
 			
-			<?php
-				if(isset($_POST['email'])){
-					$email = $_POST["email"];
+			
+			
+				if(isset($_POST['galdera'])){
+					$email = $_SESSION['email'];
 					$galdera = $_POST["galdera"];
 					$erzu = $_POST["erzu"];
 					$erok1 = $_POST["erok1"];
@@ -127,8 +125,8 @@
 
 					$galderak->asXML('../xml/questions.xml');
 					echo ("  XML dokumentuan galdera gehitu da");
-					echo "<p> <a href='layoutErreg.php?erab=$email'>Menura itzuli</a>";
-					echo "<p> <a href='showXMLQuestions.php?erab=$email'>XML fitxategia bistaratu</a>";
+					//echo "<p> <a href='layoutErreg.php'>Menura itzuli</a>";
+					echo "<p> <a href='showXMLQuestions.php'>XML fitxategia bistaratu</a>";
 				}
 			?>
 		</div>
@@ -143,7 +141,7 @@
 		$(document).ready(function() {
 			$("#galderenF").submit(function(){
 			
-				if($("#email").val() == "" || $("#galdera").val() == "" || $("#erzu").val() == "" || $("#erok1").val() == "" || $("#erok2").val() == "" || $("#erok3").val() == "" || $("#arloa").val() == "" || $('input:radio[name=gz1]:checked').val() == null ){
+				if($($("#galdera").val() == "" || $("#erzu").val() == "" || $("#erok1").val() == "" || $("#erok2").val() == "" || $("#erok3").val() == "" || $("#arloa").val() == "" || $('input:radio[name=gz1]:checked').val() == null ){
 					alert("Derrigorrezko eremuak bete");
 					return false;
 				}
@@ -156,11 +154,11 @@
 				}
 				
 				
-				var rege = /^[a-zA-Z]{3,}[0-9]{3}@ikasle\.ehu\.eus$/;
-				if(!rege.test($("#email").val())){
-					alert("Hizkiak + 3 digitu + “@ikasle.ehu.eus” (EHU ikasleen eposta)");
-					return false;
-				}
+				//var rege = /^[a-zA-Z]{3,}[0-9]{3}@ikasle\.ehu\.eus$/;
+				//if(!rege.test($("#email").val())){
+				//	alert("Hizkiak + 3 digitu + “@ikasle.ehu.eus” (EHU ikasleen eposta)");
+				//	return false;
+				//}
 				
 				return true;
 			});

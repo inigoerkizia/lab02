@@ -1,5 +1,5 @@
 <?php
-	$lokal = 1; //1 hodeian
+	$lokal = 0; //1 hodeian
 	if ($lokal) {
 		$zerbitzaria = "localhost";
  		$erabiltzaile = "id7132149_ionetainigo";

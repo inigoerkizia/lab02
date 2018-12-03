@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -29,11 +30,6 @@
 </html>
 
 <?php
-	$v1 = $_GET['var1'];
-	$erab = $_GET['erab'];
-	if($v1 == 1){
-		echo "<p> <a href='layoutErreg.php?erab=$erab'> Hasierako menua</a>";
-	}else{
-		echo "<p> <a href='../layout.html'> Hasierako menua</a>";
-	}
+		echo "<p> <a href='layoutErreg.php'> Hasierako menua</a>";
+	
 ?>

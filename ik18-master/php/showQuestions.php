@@ -1,4 +1,4 @@
-
+<?php session_start(); ?>
 <?php
 	include ("dbkonfiguratu.php");    
 //konexioa ireki
@@ -23,8 +23,7 @@
 	echo '</table>';
 	mysqli_free_result($ema);
 		
-	$erab = $_GET['erab'];
-	echo "<p> <a href='layoutErreg.php?erab=$erab'>Menura itzuli</a>";
+	echo "<p> <a href='layoutErreg.php'>Menura itzuli</a>";
 
 	// Konexioa itxi
 	mysqli_close($esteka);

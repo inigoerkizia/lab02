@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿<?php session_start(); ?>
+<!DOCTYPE html>
 <html>
   <head>
     <meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
@@ -16,52 +17,47 @@
   <body>
   <div id='page-wrap'>
 	<header class='main' id='h1'>
-	<?php
-		$erab = $_GET['erab'];
-		echo "<p><b>$erab</b></a>";
+	<?php	
+		if(empty($_SESSION['rola'])){
+			echo "<span class='left' >Anonymous </span>";
+			echo "<span class='right' ><a href='signUp.php'>Erregistratu</a> </span>";
+			echo "<span class='right'><a href='logIn.php'>LogIn</a> </span>";
+		}else{
+			echo $_SESSION['email'];
+			echo "<span class='right'><a href='logOut.php'>LogOut</a> </span>";
+		}
 	?>
-      <span class="right"><a href="../layout.html">LogOut</a> </span>
-	  
+      
 	<h2>Quiz: crazy questions</h2>
     </header>
+	
 	<nav class='main' id='n1' role='navigation'>
-		<span>
 		<?php
-		echo " <a href='layoutErreg.php?erab=$erab'>Home</a>";
-		?>
-		</span>
-		<span><a href='/quizzes'>Quizzes</a></span>
-		<span>
-		<?php
-		echo " <a href='addQuestion.php?erab=$erab'>Add Question</a>";
-		?>
+		if(empty($_SESSION['rola'])){
+			echo "<span><a href='layoutErreg.php'>Home</a></span>";
+			echo "<span><a href='/quizzes'>Quizzes</a></span>";
+			echo "<span><a href='credits.php'>Credits</a></span>";
 		
-		</span>
-		<span>
-		<?php
-		echo " <a href='showQuestions.php?erab=$erab'>Show Questions</a>";
-		?>
-		</span>
+		}else if($_SESSION['rola'] == "IKASLEA"){
+			echo " <span><a href='layoutErreg.php'>Home</a></span>";
+			echo "<span><a href='/quizzes'>Quizzes</a></span>";
+			echo " <span><a href='addQuestion.php'>Add Question</a></span>";
+			echo " <span><a href='showQuestions.php'>Show Questions</a></span>";
+			echo "<span><a href='../xml/questions.xml'>XML Questions</a></span>";
+			echo " <span><a href='showXMLQuestions.php'>Show XML Questions</a></span>";
+			echo " <span><a href='handlingQuizesAJAX.php'>Quizes AJAX</a></span>";
+			echo " <span><a href='credits.php'>Credits</a></span>";
+		}else if($_SESSION['rola'] == "IRAKASLEA"){
+			echo " <span><a href='layoutErreg.php'>Home</a></span>";
+			echo "<span><a href='/quizzes'>Quizzes</a></span>";
+			echo " <span><a href='handlingAccounts.php'>Handling Accounts</a></span>";
+			echo " <span><a href='credits.php'>Credits</a></span>";
 		
-		<span><a href='../xml/questions.xml'>XML Questions</a></span>
-
-		<span>
-		<?php
-		echo " <a href='showXMLQuestions.php?erab=$erab'>Show XML Questions</a>";
+		}
+			
 		?>
-		</span>
+	
 		
-		<span>
-		<?php
-		echo " <a href='handlingQuizesAJAX.php?erab=$erab'>Quizes AJAX</a>";
-		?>
-		</span>
-		
-		<span>
-		<?php
-		echo " <a href='credits.php?erab=$erab&&var1=1'>Credits</a>";
-		?>
-		</span>
 		
 	</nav>
     <section class="main" id="s1">

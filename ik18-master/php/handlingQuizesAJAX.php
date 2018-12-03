@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -31,19 +32,31 @@
 	
 	</style>
 	</head>
-	
+		<?php 
+				if(empty($_SESSION['rola'])){
+					echo "<a>EZIN DUZU ORRI HONTAN SARTU</a>";
+					echo "<p> <a href='layoutErreg.php'>Menura itzuli</a>";
+					echo "<img src= '../images\prohibido.jpg'>";
+					return false;
+				}
+				if($_SESSION['rola'] == "IRAKASLEA"){
+					echo "<a>EZIN DUZU ORRI HONTAN SARTU</a>";
+					echo "<p> <a href='layoutErreg.php'>Menura itzuli</a>";
+					echo "<img src= '../images\prohibido.jpg'>";
+					return false;
+				}
+			?>
 	<body background ="../images\letras-de-modelo-37111940.jpg">
 	
+		
 	
 	
-<form id="galderenF" name="galderenF" method="post" >
+<form id="galderenF" name="galderenF">
 
-			<input type="button" value="Nire galderak erakutxi" onclick="datuakEskatu()">
-			<input type="button" id="addQ" value="Galdera gehitu">
+			<input type="button" value="Nire galderak erakutxi" onclick="datuakEskatu()" />
+			<input type="button" id="addQ" value="Galdera gehitu" />
 			<br><br>
-			<div>
-        		Email-a(*):<input type="email" id="email" name="email">
-    		</div>
+
     		<div>
         		Galderaren testua(*):<input type="text" id="galdera" name="galdera" >
     		</div>
@@ -68,12 +81,13 @@
 			<div><br>
 			<input type="reset" id="reset" value="Reset"/><br><br>
 			*Derrigorrezkoa da informazio hori ematea <br><br>
-			<?php
-				if(isset($_GET['erab'])){
-					$erab = $_GET['erab'];
-					echo "<p> <a href='layoutErreg.php?erab=$erab'>Menura itzuli</a>";
+			<?php 
+				if(isset($_SESSION['email'])){
+					echo "<p> <a href='layoutErreg.php'>Menura itzuli</a>";
+					//echo $_SESSION['email'];
 				}
 			?>
+			
 		</div>
 </form>
 	
@@ -86,7 +100,7 @@
 		$(document).ready(function() {
 			$("#addQ").click(function(){
 			
-				if($("#email").val() == "" || $("#galdera").val() == "" || $("#erzu").val() == "" || $("#erok1").val() == "" || $("#erok2").val() == "" || $("#erok3").val() == "" || $("#arloa").val() == "" || $('input:radio[name=gz1]:checked').val() == null ){
+				if($("#galdera").val() == "" || $("#erzu").val() == "" || $("#erok1").val() == "" || $("#erok2").val() == "" || $("#erok3").val() == "" || $("#arloa").val() == "" || $('input:radio[name=gz1]:checked').val() == null ){
 					alert("Derrigorrezko eremuak bete");
 					return false;
 				}
@@ -97,13 +111,7 @@
 					alert("Galderak 10 karaktere minimo eduki behar ditu");
 					return false;
 				}
-				
-				
-				var rege = /^[a-zA-Z]{3,}[0-9]{3}@ikasle\.ehu\.eus$/;
-				if(!rege.test($("#email").val())){
-					alert("Hizkiak + 3 digitu + “@ikasle.ehu.eus” (EHU ikasleen eposta)");
-					return false;
-				}
+								
 				var url = "addQuestion.php";
 				$.ajax({
 					type:"POST",
@@ -117,26 +125,27 @@
 				return true;
 			});
 		});
-	
-	function datuakEskatu(){
-		var xhro = new XMLHttpRequest();
-		xhro.onreadystatechange= function (){
-			if (this.readyState == 4 && this.status == 200){
-				nireFuntzioa(this);
-			}
-			
-		};
-		xhro.open("GET",'../xml/questions.xml?q='+new Date().getTime(), true);
-		xhro.send();
-	}
+		
+		function datuakEskatu(){
+			var xhro3 = new XMLHttpRequest();
+			xhro3.onreadystatechange= function (){
+				if (this.readyState == 4 && this.status == 200){
+					nireFuntzioa(this);
+				}
+			};
+		
+			xhro3.open("GET",'../xml/questions.xml?q='+new Date().getTime(), true);
+			xhro3.send();
+		}
 	function nireFuntzioa(xml) {
 		var lortua = false;
+		
 		var i;
 		var xmlDoc = xml.responseXML;
 		var table="<tr><th>Egilea</th><th>Enuntziatua</th><th>Erantzun zuzena</th></tr>";
         var x = xmlDoc.getElementsByTagName("assessmentItem");
 		for (i = 0; i <x.length; i++) {
-			if (x[i].getAttribute("author") == "<?php echo "$erab"?>"){
+			if (x[i].getAttribute("author") ==  "<?php echo $_SESSION['email'];?>"){
 				table += "<tr><td>" +
 				x[i].getAttribute("author")+ "</td><td>" +
 				x[i].getElementsByTagName("p")[0].childNodes[0].nodeValue +"</td><td>" +

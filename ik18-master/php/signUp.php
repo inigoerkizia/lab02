@@ -55,12 +55,12 @@ if(isset($_POST['email'])){
 	if(mysqli_num_rows($email_berria)>0)
 	{
 		echo "Email hori erregistratuta dago";
-		echo "<p> <a href='../layout.html'> Menura itzuli</a>";
+		echo "<p> <a href='layoutErreg.php'> Menura itzuli</a>";
 		return false;
 	}
 
 	
- 	mysqli_query($esteka, "INSERT INTO users(email, deitura, pasahitza) VALUES ('$_POST[email]', '$_POST[deitura]', '$_POST[pasahitza]')");
+ 	mysqli_query($esteka, "INSERT INTO users(email, deitura, pasahitza, egoera) VALUES ('$_POST[email]', '$_POST[deitura]', '$_POST[pasahitza]', 'aktibo')");
 	
 	 
 
@@ -71,7 +71,7 @@ if(isset($_POST['email'])){
 ?>
 			
 			
-			<br><a href='../layout.html'>Menura itzuli</a>
+			<br><a href='layoutErreg.php'>Menura itzuli</a>
 		</div>
 	
 </form>
