@@ -44,14 +44,23 @@ if(isset($_POST['email'])){
 	include ("dbkonfiguratu.php");
 	
 	$irakasle = "admin000@ehu.eus";
-	
+	$rosa = "rosa.arruabarrena@ehu.eus";
 	
 	$esteka = mysqli_connect($zerbitzaria,$erabiltzaile,$gakoa,$db);
-
-	$erregistroa=mysqli_query($esteka, "SELECT * FROM users WHERE email='$_POST[email]' AND pasahitza='$_POST[pasahitza]'");
+	 
+	$erregistroa=mysqli_query($esteka, "SELECT * FROM users WHERE email='$_POST[email]'");
 	if(mysqli_num_rows($erregistroa) == 0)
 	{
 		echo "<font color='red'>Erabiltzaile edo pasahitz okerra.</font>";
+		//echo "<p> <a href='../logIn.html'> Atzera</a>";
+		echo "<p> <a href='layoutErreg.php'> Menura itzuli</a>";
+		return false;
+	}
+	$erabiltzailea = mysqli_fetch_array($erregistroa, MYSQLI_ASSOC);
+	$pasahitz_zifr = $erabiltzailea["pasahitza"];
+
+	if(password_verify($_POST['pasahitza'], $pasahitz_zifr) == false && $pasahitz_zifr != $_POST['pasahitza']){
+		echo "<font color='red'>Pasahitz okerra.</font>";
 		//echo "<p> <a href='../logIn.html'> Atzera</a>";
 		echo "<p> <a href='layoutErreg.php'> Menura itzuli</a>";
 		return false;
@@ -64,7 +73,7 @@ if(isset($_POST['email'])){
 		return false;
 	}
 	
-	if ($_POST['email'] == $irakasle){
+	if ($_POST['email'] == $irakasle ||$_POST['email'] == $rosa){
 		$_SESSION['rola'] = "IRAKASLEA";
 		$_SESSION['email'] = $_POST['email'];
 		echo "<font color='green'>ONGI ETORRI IRAKASLE</font>";

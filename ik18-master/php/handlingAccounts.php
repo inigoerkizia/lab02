@@ -1,4 +1,9 @@
 <?php session_start(); ?>
+<?php
+if(isset($_SESSION['email'])){
+	echo "Kautotutako erabiltzailea: $_SESSION[email]";
+}
+?>
 <?php 
 				if(empty($_SESSION['rola'])){
 					echo "<a>EZIN DUZU ORRI HONTAN SARTU</a>";

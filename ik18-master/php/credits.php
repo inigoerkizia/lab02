@@ -1,5 +1,10 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
+<?php
+if(isset($_SESSION['email'])){
+	echo "Kautotutako erabiltzailea: $_SESSION[email]";
+}
+?>
 <html>
 	<head>
 		<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
@@ -30,6 +35,5 @@
 </html>
 
 <?php
-		echo "<p> <a href='layoutErreg.php'> Hasierako menua</a>";
-	
+			echo "<p> <a href='layoutErreg.php'> Hasierako menua</a>";
 ?>

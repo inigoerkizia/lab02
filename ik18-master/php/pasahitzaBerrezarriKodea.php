@@ -1,3 +1,13 @@
+<?php session_start(); ?>
+<?php  
+	if(empty($_SESSION['kodea'])){
+		echo "<a>EZIN DUZU ORRI HONTAN SARTU</a>";
+		echo "<p> <a href='layoutErreg.php'>Menura itzuli</a>";
+		echo "<img src= '../images\prohibido.jpg'>";
+		return false;
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -23,49 +33,47 @@
 	</head>
 	
 	<body background ="../images\letras-de-modelo-37111940.jpg">
-<form id="Erregistro" name="Erregistro" action = "signUp.php" method="post">
+<form id="berrezarpen" name="berrezarpen" action = "pasahitzaBerrezarriKodea.php" method="post">
 			<div>
-        		Email-a(*):<input type="email" id="email" name="email" onchange="egiaztatuMatrikula()">
+        		Email-a(*):<input type="email" id="email" name="email" value= "<?php echo $_SESSION['email'] ?>">
     		</div>
-    		<div>
-        		Deitura(Izen eta abizenak)(*):<input type="text" id="deitura" name="deitura" >
-    		</div>
+
 		<div>
-			Pasahitza(*):<input type="password" id="pasahitza" name="pasahitza" onchange="egiaztatuPasahitza()"><br><br>
-			Pasahitza errepikatu(*):<input type="password" id="pasahitzaErr" name="pasahitzaErr"><br><br>
-			 
+			Pasahitz berria(*):<input type="password" id="pasahitza" name="pasahitza" onchange="egiaztatuPasahitza()"><br><br>
+			Pasahitz berria errepikatu(*):<input type="password" id="pasahitzaErr" name="pasahitzaErr"><br><br>
+			Berreskurapen kodea(*):<input type="text" id="kodea" name="kodea"><br><br>
 		</div>
-			<input type="submit" id="Erregistratu" value="Erregistratu"/>
+			<input type="submit" id="berrezarpen" value="Berrezarri"/>
 			<input type="reset" id="reset" value="Reset"/><br><br>
 			*Derrigorrezkoa da informazio hori ematea <br><br>
-			<span id="matrikulatua"></span><br>
-			<span id="pasahitza2"></span>
-			
-
-			
+			<span id="pasahitza2"></span><br>
 			
 			
 <?php
-if(isset($_POST['email'])){
+	if(isset($_POST['pasahitza'])){
+		if($_POST['kodea'] != $_SESSION['kodea']){
+			echo "<font color='red'>Sartu duzun kodea ez da zuzena!</font>";
+			echo "<p> <a href='layoutErreg.php'> Menura itzuli</a>";
+			return false;
+		}
 	include ("dbkonfiguratu.php");
 
 	$esteka = mysqli_connect($zerbitzaria,$erabiltzaile,$gakoa,$db);
 
 	$email_berria=mysqli_query($esteka, "SELECT email FROM users WHERE email='$_POST[email]'");
-	if(mysqli_num_rows($email_berria)>0)
+	if(mysqli_num_rows($email_berria) == 0)
 	{
-		echo "Email hori erregistratuta dago";
+		echo "Email hori ez dago erregistratuta";
 		echo "<p> <a href='layoutErreg.php'> Menura itzuli</a>";
 		return false;
 	}
-
 	$pasahitza_hash = password_hash($_POST['pasahitza'], PASSWORD_DEFAULT);
-	
- 	mysqli_query($esteka, "INSERT INTO users(email, deitura, pasahitza, egoera) VALUES ('$_POST[email]', '$_POST[deitura]', '$pasahitza_hash', 'aktibo')");
+
+ 	mysqli_query($esteka, "UPDATE users SET pasahitza='$pasahitza_hash' WHERE email='$_POST[email]'");
 	
 	 
 
-	echo "<font color='green'><h1> Erregistroa gauzatu da!</h1></font>";
+	echo "<font color='green'><h1> Pasahitza eguneratu da!</h1></font>";
 	
 	mysqli_close($esteka);
 }
@@ -81,27 +89,10 @@ if(isset($_POST['email'])){
 	</body>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
-	
-	var xhro = new XMLHttpRequest();
-
-	xhro.onreadystatechange = function(){ //Matrikula
-				if((xhro.readyState==4)&&(xhro.status==200)){
-					var result = xhro.responseText;
-					
-					if(result == "BAI"){
-						document.getElementById("matrikulatua").innerHTML = "Email hori WS irakasgaian matrikulatuta dago."
-						document.getElementById("matrikulatua").style.color = "green";
-					}else{
-						document.getElementById("matrikulatua").innerHTML = "Email hori ez dago WS irakasgaian matrikulatuta."
-						document.getElementById("matrikulatua").style.color = "red";
-					}
-				}
-				
-	}
 	var xhro2 = new XMLHttpRequest();
 	
 	xhro2.onreadystatechange = function(){ //Pasahitza
-				if((xhro2.readyState==4)&&(xhro.status==200)){
+				if((xhro2.readyState==4)&&(xhro2.status==200)){
 					var result2 = xhro2.responseText;
 					
 					if(result2 == "BALIOZKOA"){
@@ -119,42 +110,30 @@ if(isset($_POST['email'])){
 				}
 	}
 	
-			function egiaztatuMatrikula(){
-				var email = $("#email").val();
-				console.log(email);
-				xhro.open("GET","egiaztaMatrikula.php?email="+ email, true);
-				xhro.send();
-			}
-	
 			function egiaztatuPasahitza(){
 				var pasahitza = $("#pasahitza").val();
 				xhro2.open("POST","egiaztatuPasahitzaBezero.php", true);
 				xhro2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 				xhro2.send("pasahitza="+pasahitza);
 			}
-	
-		$(document).ready(function() {
-			$("#Erregistro").submit(function(){
 			
-				var baldintza1 = xhro.responseText;
+			
+		$(document).ready(function() {
+			$("#berrezarpen").submit(function(){
+			
 				var baldintza2 = xhro2.responseText;
 
 				
-				if($("#email").val() == "" || $("#deitura").val() == "" || $("#pasahitza").val() == "" || $("#pasahitzaErr").val() == "" ){
+				if($("#email").val() == "" || $("#pasahitza").val() == "" || $("#pasahitzaErr").val() == "" || $("#kodea").val() == ""){
 					alert("Derrigorrezko eremuak bete");
 					return false;
 				}
 				
-				if(baldintza1 != "BAI" || baldintza2 != "BALIOZKOA"){
-					alert("Ezin zara erregistratu!");
+				if(baldintza2 != "BALIOZKOA"){
+					alert("Ezin duzu pasahitza aldatu!");
 					return false;
 				}
 				
-				var rege2 = /^[A-Z]([a-zA-Z]+) [A-Z]([a-zA-Z]+)( [a-zA-Z]*)*/;
-				if(!rege2.test($("#deitura").val())){
-					alert("Sartu izen eta abizen bat gutxienez letra larriz hasita");
-					return false;
-				}
 				pasahitz = $("#pasahitza").val();
 				if(pasahitz.trim().length<8){
 					alert("Pasahitzak 8 karaktere minimo eduki behar ditu");
@@ -166,15 +145,7 @@ if(isset($_POST['email'])){
 				}else{
 					alert("Pasahitzak berdinak izan behar dute");
 					return false;
-				}
-				
-				var rege = /^[a-zA-Z]{3,}[0-9]{3}@ikasle\.ehu\.eus$/;
-				if(!rege.test($("#email").val())){
-					alert("Hizkiak + 3 digitu + “@ikasle.ehu.eus” (EHU ikasleen eposta)");
-					return false;
-				}
-				
-				
+				}	
 				return true;
 			});
 		});

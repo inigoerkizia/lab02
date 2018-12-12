@@ -22,6 +22,7 @@
 			echo "<span class='left' >Anonymous </span>";
 			echo "<span class='right' ><a href='signUp.php'>Erregistratu</a> </span>";
 			echo "<span class='right'><a href='logIn.php'>LogIn</a> </span>";
+			echo "<span class='right'><a href='pasahitzaBerrezarri.php'>Pasahitza berrezarri</a> </span>";
 		}else{
 			echo $_SESSION['email'];
 			echo "<span class='right'><a href='logOut.php'>LogOut</a> </span>";
@@ -35,21 +36,14 @@
 		<?php
 		if(empty($_SESSION['rola'])){
 			echo "<span><a href='layoutErreg.php'>Home</a></span>";
-			echo "<span><a href='/quizzes'>Quizzes</a></span>";
+			echo "<span><a href='playQuiz.php'>Play Quizzes</a></span>";
 			echo "<span><a href='credits.php'>Credits</a></span>";
-		
 		}else if($_SESSION['rola'] == "IKASLEA"){
 			echo " <span><a href='layoutErreg.php'>Home</a></span>";
-			echo "<span><a href='/quizzes'>Quizzes</a></span>";
-			echo " <span><a href='addQuestion.php'>Add Question</a></span>";
-			echo " <span><a href='showQuestions.php'>Show Questions</a></span>";
-			echo "<span><a href='../xml/questions.xml'>XML Questions</a></span>";
-			echo " <span><a href='showXMLQuestions.php'>Show XML Questions</a></span>";
 			echo " <span><a href='handlingQuizesAJAX.php'>Quizes AJAX</a></span>";
 			echo " <span><a href='credits.php'>Credits</a></span>";
 		}else if($_SESSION['rola'] == "IRAKASLEA"){
 			echo " <span><a href='layoutErreg.php'>Home</a></span>";
-			echo "<span><a href='/quizzes'>Quizzes</a></span>";
 			echo " <span><a href='handlingAccounts.php'>Handling Accounts</a></span>";
 			echo " <span><a href='credits.php'>Credits</a></span>";
 		

@@ -1,4 +1,5 @@
 <?php session_start(); ?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -52,11 +53,26 @@
 	
 	
 <form id="galderenF" name="galderenF">
+<?php
+if(isset($_SESSION['email'])){
+	echo "Kautotutako erabiltzailea: $_SESSION[email]";
+}
+?>
 
 			<input type="button" value="Nire galderak erakutxi" onclick="datuakEskatu()" />
 			<input type="button" id="addQ" value="Galdera gehitu" />
+			<input type="button" value="Galdera kopuruak erakutxi" onclick="kopuruakEskatu()" />
+			
 			<br><br>
-
+			<b>Galdera kopuru totala:</b>
+			<div id="kopuru_tot">
+				
+			</div>
+			<b>Nire galdera kopurua:</b>
+			<div id="kopuru_nirea">
+				
+			</div>
+		
     		<div>
         		Galderaren testua(*):<input type="text" id="galdera" name="galdera" >
     		</div>
@@ -89,11 +105,14 @@
 			?>
 			
 		</div>
+		
+		
 </form>
 	
 <div><table id="emaitza">
 		<tr><th>Zure galderak erakutsiko dira hemen.</th></tr></table>
 </div>
+
 	</body>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
@@ -119,13 +138,24 @@
 					data: $("#galderenF").serialize(),
 					success: function(){
 						datuakEskatu()
+						kopuruakEskatu()
 					}
 					
 				});
 				return true;
 			});
 		});
+		function kopuruakEskatu(){
+			var xhro2 = new XMLHttpRequest();
+			xhro2.onreadystatechange= function (){
+				if (this.readyState == 4 && this.status == 200){
+					nireFuntzioa1(this);
+				}
+			};
 		
+			xhro2.open("GET",'../xml/questions.xml?q='+new Date().getTime(), true);
+			xhro2.send();
+		}
 		function datuakEskatu(){
 			var xhro3 = new XMLHttpRequest();
 			xhro3.onreadystatechange= function (){
@@ -139,13 +169,15 @@
 		}
 	function nireFuntzioa(xml) {
 		var lortua = false;
-		
+		var nire_kop = 0;
 		var i;
 		var xmlDoc = xml.responseXML;
 		var table="<tr><th>Egilea</th><th>Enuntziatua</th><th>Erantzun zuzena</th></tr>";
         var x = xmlDoc.getElementsByTagName("assessmentItem");
+		var total_kop = x.length;
 		for (i = 0; i <x.length; i++) {
 			if (x[i].getAttribute("author") ==  "<?php echo $_SESSION['email'];?>"){
+				nire_kop = nire_kop + 1;
 				table += "<tr><td>" +
 				x[i].getAttribute("author")+ "</td><td>" +
 				x[i].getElementsByTagName("p")[0].childNodes[0].nodeValue +"</td><td>" +
@@ -157,6 +189,26 @@
 			table = "<tr><th>Ez daukazu galderarik</th></tr>";
 		}
 		document.getElementById("emaitza").innerHTML = table;
+
+		return true;
+	}	
+	
+	function nireFuntzioa1(xml) {
+
+		var nire_kop = 0;
+		var i;
+		var xmlDoc = xml.responseXML;
+		var table="<tr><th>Egilea</th><th>Enuntziatua</th><th>Erantzun zuzena</th></tr>";
+        var x = xmlDoc.getElementsByTagName("assessmentItem");
+		var total_kop = x.length;
+		for (i = 0; i <x.length; i++) {
+			if (x[i].getAttribute("author") ==  "<?php echo $_SESSION['email'];?>"){
+				nire_kop = nire_kop + 1;
+			}
+		}
+
+		document.getElementById("kopuru_tot").innerHTML = total_kop;
+		document.getElementById("kopuru_nirea").innerHTML = nire_kop;
 		return true;
 	}	
 	</script>
