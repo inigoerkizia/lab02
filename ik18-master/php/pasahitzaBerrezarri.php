@@ -36,14 +36,19 @@
 			
 			<br><a href='layoutErreg.php'>Menura itzuli</a>
 		</div>
-	
-</form>
-
-<?php
+	<?php
 	
 	if(isset($_POST['email'])){
+		include ("dbkonfiguratu.php");
+		$esteka = mysqli_connect($zerbitzaria,$erabiltzaile,$gakoa,$db);
 		$email = $_POST['email'];
-		
+		$erregistroa=mysqli_query($esteka, "SELECT * FROM users WHERE email='$_POST[email]'");
+		if(mysqli_num_rows($erregistroa) == 0)
+		{
+			echo "<font color='red'>Erabiltzaile hori ez da existitzen.</font>";
+			return false;
+		}
+	
 		$to = $email;
 		$subject = "Pasahitza berrezarri";
 		$kodea = rand(10000, 99999);
@@ -78,6 +83,9 @@
 	}
 	
 ?>	 
+</form>
+
+
 		
 	</body>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

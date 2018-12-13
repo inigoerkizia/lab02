@@ -45,7 +45,7 @@ if(isset($_POST['email'])){
 	
 	$irakasle = "admin000@ehu.eus";
 	$rosa = "rosa.arruabarrena@ehu.eus";
-	
+	$rosa2 = "r.arruabarrena@gmail.com";
 	$esteka = mysqli_connect($zerbitzaria,$erabiltzaile,$gakoa,$db);
 	 
 	$erregistroa=mysqli_query($esteka, "SELECT * FROM users WHERE email='$_POST[email]'");
@@ -73,7 +73,7 @@ if(isset($_POST['email'])){
 		return false;
 	}
 	
-	if ($_POST['email'] == $irakasle ||$_POST['email'] == $rosa){
+	if ($_POST['email'] == $irakasle ||$_POST['email'] == $rosa || $_POST['email'] == $rosa2){
 		$_SESSION['rola'] = "IRAKASLEA";
 		$_SESSION['email'] = $_POST['email'];
 		echo "<font color='green'>ONGI ETORRI IRAKASLE</font>";

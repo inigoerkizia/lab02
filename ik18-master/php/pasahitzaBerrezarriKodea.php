@@ -35,7 +35,7 @@
 	<body background ="../images\letras-de-modelo-37111940.jpg">
 <form id="berrezarpen" name="berrezarpen" action = "pasahitzaBerrezarriKodea.php" method="post">
 			<div>
-        		Email-a(*):<input type="email" id="email" name="email" value= "<?php echo $_SESSION['email'] ?>">
+        		Email-a(*):<input type="email" id="email" name="email" value= "<?php echo $_SESSION['email'] ?>" readonly>
     		</div>
 
 		<div>
